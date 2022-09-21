@@ -113,7 +113,7 @@
             font-size: 12.9px;
         }
     </style>
-    
+
     <script>
         function removerMascara(obj) {
             var ret;
@@ -254,15 +254,9 @@
                     <!-- Inicio dados -->
                     <div class="tab-pane row" id="pagina_cadastro">
                         <div class="div-input form-floating mb-3 m-l-10 col-5" style="display: inline-block;">
-                            <input class="form-control" type="text" autocomplete="off" name="razaoSocial"
-                                id="razao_social" placeholder=".">
-                            <label for="" id="" style="width: 400px;">Razão Social</label>
-                        </div>
-
-                        <div class="div-input form-floating mb-3 m-l-10 col-4" style="display: inline-block;">
-                            <input class="form-control" type="text" autocomplete="off" name="nomeFantasia"
-                                id="nome_fantasia" placeholder=".">
-                            <label for="" id="" style="width: 400px;">Nome Fantasia</label>
+                            <input class="form-control" type="text" autocomplete="off" name="nome" id="nome"
+                                placeholder=".">
+                            <label for="" id="" style="width: 400px;">Nome</label>
                         </div>
                         <div class="div-input form-floating mb-3 m-l-10 col-3" style="display: inline-block;">
                             <input class="form-control" type="text" autocomplete="off" name="Telefone1" id="telefone_1"
@@ -285,126 +279,68 @@
                             <label for="" id="" style="width: 400px;">Email 2</label>
                         </div>
                         <!-- info adicionais -->
-                        <div class="col-6" style="border-left: solid 1px lightgray;">
-                            <div class="col-6" style="float: left;">
-                                <div class="div-input form-floating mb-3 m-l-10 col-9" style="display: inline-block;">
-                                    <input class="form-control" type="date" autocomplete="off" name="dataDeCadastro"
-                                        id="data_cadastro" placeholder="." readonly>
-                                    <label for="" id="" style="width: 400px;">Data de Cadastro</label>
-                                </div>
-                                <div class="div-input mb-3 m-l-10 col-9" style="display: inline-block;">
-                                    <select class="form-select" aria-label="Default select example" id="usu_resp">
-                                        <option value="" selected>Usuário Responsável</option>
-                                    </select>
-                                </div>
+                            <div class="div-input form-floating mb-3 m-l-10 col-9" style="display: inline-block;">
+                                <input class="form-control" type="date" autocomplete="off" name="dataDeCadastro"
+                                    id="data_cadastro" placeholder="." readonly>
+                                <label for="" id="" style="width: 400px;">Data de Cadastro</label>
                             </div>
-                            <div class="col-6" style="float: right;">
-                                <div class="div-input form-floating mb-3 m-l-10 col-10" style="display: inline-block;">
-                                    <input class="form-control" type="number" autocomplete="off"
-                                        name="qntMaximaVeiculos" id="qnt_max_veiculos" placeholder=".">
-                                    <label for="" id="" style="width: 600px;">Qte Máxima de Veículos</label>
-                                </div>
-                                <div class="div-input mb-3 m-l-10 col-9" style="display: inline-block;">
-                                    <select class="form-select" aria-label="Default select example" id="empresa_resp">
-                                        <option value="" selected>Empresa</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="div-input form-floating mb-3 m-l-10 col-10" style="display: inline-block;">
-                                    <input class="form-control" type="text" autocomplete="off" name="usuario_add"
-                                        id="usu_add" placeholder="." readonly>
-                                    <label for="" id="" style="width: 400px;">Usuário</label>
-                                </div>
-                                <div class="div-input mb-3 m-l-10 col-3" style="display: inline-block;"
-                                    onclick="toggleCheck('oficina_credenciada')">
-                                    <input type="checkbox" name="" id="oficina_credenciada"
-                                        style="display: inline-block;">
-                                    <label for="" id="" style="display: inline-block; margin-left: -20px;">Oficina
-                                        Credenciada</label>
-                                </div>
-                                <div class="div-input mb-3 m-l-10 col-3" style="display: inline-block;"
-                                    onclick="toggleCheck('oficina_desabilitada')">
-                                    <input type="checkbox" name="" id="oficina_desabilitada"
-                                        style="display: inline-block;">
-                                    <label for="" id="" style="display: inline-block; margin-left: -20px;">Oficina
-                                        Desabilitada</label>
-                                </div>
-                                <div class="col-1" style="display: inline-block;">
-                                    <button class="btn btn-success" style="padding: 2px 6px;">
-                                        <i class="material-symbols-outlined" style="font-size: 18px; margin: 0;">
-                                            add
-                                        </i>
-                                    </button>
-                                </div>
-                                <div class="col-1" style="display: inline-block; margin-left: -10px;">
-                                    <button class="btn btn-primary" style="padding: 2px 6px;">
-                                        <i class="material-symbols-outlined" style="font-size: 18px; margin: 0;">
-                                            help
-                                        </i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
                         <!-- Localização -->
-                        <div class="col-6" style="margin-top: -235px;">
-                            <div class="div-input form-floating mb-3 m-l-10 col-4" style="display: inline-block;">
-                                <input class="form-control" type="text" autocomplete="off" name="cep" id="cep"
-                                    placeholder="." onchange="pesquisacep(this.val)">
-                                <label for="" id="" style="width: 400px;">CEP</label>
-                            </div>
-                            <div class="div-input mb-3 col-4" style="display: inline-block; margin-top: 35px;">
-                                <select class="form-select" aria-label="Default select example" id="uf">
-                                    <option value="" selected>UF</option>
-                                    <option value="AC">Acre</option>
-                                    <option value="AL">Alagoas</option>
-                                    <option value="AP">Amapá</option>
-                                    <option value="AM">Amazonas</option>
-                                    <option value="BA">Bahia</option>
-                                    <option value="CE">Ceará</option>
-                                    <option value="DF">Distrito Federal</option>
-                                    <option value="ES">Espirito Santo</option>
-                                    <option value="GO">Goiás</option>
-                                    <option value="MA">Maranhão</option>
-                                    <option value="MS">Mato Grosso do Sul</option>
-                                    <option value="MT">Mato Grosso</option>
-                                    <option value="MG">Minas Gerais</option>
-                                    <option value="PA">Pará</option>
-                                    <option value="PB">Paraíba</option>
-                                    <option value="PR">Paraná</option>
-                                    <option value="PE">Pernambuco</option>
-                                    <option value="PI">Piauí</option>
-                                    <option value="RJ">Rio de Janeiro</option>
-                                    <option value="RN">Rio Grande do Norte</option>
-                                    <option value="RS">Rio Grande do Sul</option>
-                                    <option value="RO">Rondônia</option>
-                                    <option value="RR">Roraima</option>
-                                    <option value="SC">Santa Catarina</option>
-                                    <option value="SP">São Paulo</option>
-                                    <option value="SE">Sergipe</option>
-                                    <option value="TO">Tocantins</option>
-                                </select>
-                            </div>
-                            <div class="div-input form-floating mb-3 m-l-10 col-5" style="display: inline-block;">
-                                <input class="form-control" type="text" autocomplete="off" name="cidade" id="cidade"
-                                    placeholder=".">
-                                <label for="" id="" style="width: 400px;">Cidade</label>
-                            </div>
-                            <div class="div-input form-floating mb-3 m-l-10 col-4" style="display: inline-block;">
-                                <input class="form-control" type="text" autocomplete="off" name="bairro" id="bairro"
-                                    placeholder=".">
-                                <label for="" id="" style="width: 400px;">Bairro</label>
-                            </div>
-                            <div class="div-input form-floating mb-3 m-l-10 col-7" style="display: inline-block;">
-                                <input class="form-control" type="text" autocomplete="off" name="Endereço" id="endereco"
-                                    placeholder=".">
-                                <label for="" id="" style="width: 400px;">Endereço</label>
-                            </div>
-                            <div class="div-input form-floating mb-3 m-l-10 col-2" style="display: inline-block;">
-                                <input class="form-control" type="text" autocomplete="off" name="num" id="num"
-                                    placeholder=".">
-                                <label for="" id="" style="width: 400px;">Numero</label>
-                            </div>
+                        <div class="div-input form-floating mb-3 m-l-10 col-4" style="display: inline-block;">
+                            <input class="form-control" type="text" autocomplete="off" name="cep" id="cep"
+                                placeholder="." onchange="pesquisacep(this.val)">
+                            <label for="" id="" style="width: 400px;">CEP</label>
+                        </div>
+                        <div class="div-input mb-3 col-4" style="display: inline-block; margin-top: 35px;">
+                            <select class="form-select" aria-label="Default select example" id="uf">
+                                <option value="" selected>UF</option>
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espirito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </select>
+                        </div>
+                        <div class="div-input form-floating mb-3 m-l-10 col-5" style="display: inline-block;">
+                            <input class="form-control" type="text" autocomplete="off" name="cidade" id="cidade"
+                                placeholder=".">
+                            <label for="" id="" style="width: 400px;">Cidade</label>
+                        </div>
+                        <div class="div-input form-floating mb-3 m-l-10 col-4" style="display: inline-block;">
+                            <input class="form-control" type="text" autocomplete="off" name="bairro" id="bairro"
+                                placeholder=".">
+                            <label for="" id="" style="width: 400px;">Bairro</label>
+                        </div>
+                        <div class="div-input form-floating mb-3 m-l-10 col-7" style="display: inline-block;">
+                            <input class="form-control" type="text" autocomplete="off" name="Endereço" id="endereco"
+                                placeholder=".">
+                            <label for="" id="" style="width: 400px;">Endereço</label>
+                        </div>
+                        <div class="div-input form-floating mb-3 m-l-10 col-2" style="display: inline-block;">
+                            <input class="form-control" type="text" autocomplete="off" name="num" id="num"
+                                placeholder=".">
+                            <label for="" id="" style="width: 400px;">Numero</label>
                         </div>
                         <div class="div-input col-12">
                             <label for="">Observações Gerais</label>
