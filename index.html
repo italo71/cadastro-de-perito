@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arco Consultoria</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/bootstrap/css/bootstrap5Min.css">
+    <link rel="stylesheet"
+        href="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/node-waves/waves.css">
+    <link rel="stylesheet" href="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" href="https://siga.arcoconsultoria.com/SIGA/libsiga/css/style.min.css">
+    <link rel="stylesheet" href="https://siga.arcoconsultoria.com/SIGA/libsiga/css/main.css">
+    <link rel="stylesheet" href="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/datatables/datatables.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <style>
+        .select2-selection__rendered {
+            user-select: text;
+        }
+    </style>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        label {
+            display: block;
+            border-radius: 5px;
+        }
+
+        .div-input {
+            margin: 15px;
+        }
+
+        .radio {
+            margin-right: 5px !important;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+
+        .form-control {
+            box-shadow: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        input {
+            font-size: 80% !important;
+        }
+
+        .tel {
+            margin-right: 7px;
+        }
+
+        .obg {
+            color: red !important;
+            margin-left: 3px;
+        }
+
+        #header {
+            padding: 0 !important;
+        }
+
+        #nav-ul {
+            list-style-type: none;
+        }
+
+        #nav-ul li {
+            display: inline;
+            border-bottom: solid 1px lightgray;
+            padding: 0 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            margin-right: 3px;
+        }
+
+        .act {
+            border-bottom: solid 3px lightblue !important;
+        }
+
+        #nav-ul li:first-child {
+            margin-left: -5.5%;
+        }
+
+        #nav-ul a {
+            color: black;
+            text-decoration: none;
+        }
+
+        #importacao_eventos option {
+            font-size: 14px;
+        }
+
+        #importacao_eventos {
+            font-size: 12.9px;
+        }
+    </style>
+    
+    <script>
+        function removerMascara(obj) {
+            var ret;
+            if (j(obj).hasClass('cnpj-format')) {
+                ret = obj.value.replace('.', '').replace('.', '').replace('/', '').replace('-', '').replace(' ', '').replace(' ', '').replace(' ', '');
+            }
+            else if (j(obj).hasClass('cep-format')) {
+                ret = obj.value.replace('-', '');
+            }
+            else {
+                ret = obj.value;
+            }
+            return ret;
+        };
+
+        j("#estado").inputmask("AA", { "placeholder": "" });
+
+        function meu_callback(conteudo) {
+            if (!("erro" in conteudo)) {
+                document.getElementById('endereco').value = (conteudo.logradouro);
+                document.getElementById('bairro').value = (conteudo.bairro);
+                document.getElementById('cidade').value = (conteudo.localidade);
+                document.getElementById('estado').value = (conteudo.uf);
+            }
+            else {
+                limpa_formulário_cep();
+                alert("CEP não encontrado.");
+            }
+        }
+        function limpa_formulário_cep() {
+            document.getElementById('endereco').value = ("");
+            document.getElementById('bairro').value = ("");
+            document.getElementById('cidade').value = ("");
+            document.getElementById('estado').value = ("");
+        }
+
+
+
+        function maskaraCPFCNPJ(el) {
+            var tamanho = el.value.replace('.', '').replace('.', '').replace('-', '').replace('/', '').length;
+            if (tamanho > 11) {
+                j(el).inputmask("99.999.999/9999-99", { "placeholder": "" });
+            } else {
+                j(el).inputmask("999.999.999-99[9]", { "placeholder": "" });
+            }
+        };
+    </script>
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div id="page1" style="padding: 8px 0px 0px 25px;">
+                <div class="card">
+                    <div class="header">
+                        <h3>Cadastro de Oficinas</h3>
+                        <div class="row" style="padding: 8px;">
+                            <div class="justify-content-center">
+                                <div class="col-4">
+                                    <label for="usuario">CPF/CNPJ</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input id="cpf_cnpj" class="form-control cnpj-format "
+                                                onkeyup="maskaraCPFCNPJ(this);" style="width:50%; ">
+                                        </div>
+                                        <div>
+                                            <label type="text" id="alerta" style="padding-top: 10px;"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 m-l-10">
+                                    <button data-content="Pesquisar" data-placement="top" data-toggle="popover"
+                                        class="btn btn-primary"
+                                        style="display: inline-block; background-color:#40E0D0 !important; margin-top: 21px !important; margin-right: 4px !important;"
+                                        onclick="parent.ebfFlowExecute('Pesquisa Fornecedores', null);;">
+                                        <i class="material-icons">search</i>
+                                        <!--<span>Salvar</span>-->
+                                    </button>
+                                    <button data-content="Editar" data-placement="top" data-toggle="popover"
+                                        class="btn btn-primary"
+                                        style="display: inline-block; background-color:#5eadf3 !important; margin-top: 21px !important; margin-right: 4px !important;"
+                                        onclick="parent.ebfFlowExecute('Novo - Habilitar campos desabilitados', null);;">
+                                        <i class="material-icons">edit</i>
+                                        <!--<span>Salvar</span>-->
+                                    </button>
+                                    <button data-content="Salvar" data-placement="top" data-toggle="popover"
+                                        class="btn btn-primary"
+                                        style="display: inline-block; background-color:#337ab7 !important; margin-top: 21px !important; margin-right: 4px !important;"
+                                        onclick="parent.ebfFlowExecute('Novo Fornecedor - Salvar', null);;">
+                                        <i class="material-icons">save</i>
+                                        <!--<span>Fechar</span>-->
+                                    </button>
+                                    <button data-content="Fechar" data-placement="top" data-toggle="popover"
+                                        onclick="ebfCloseForm()" class="btn btn-primary"
+                                        style="display: inline-block;  background-color: #f44336 !important; margin-top: 21px !important; margin-right: 4px !important;">
+                                        <i class="material-icons">close</i>
+                                        <!--<span>Fechar</span>-->
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-12" style="position: absolute;">
+                                <div onmouseover="uploadBtn('block');" onmouseout="uploadBtn('none')">
+                                    <div style="position: absolute; right: 100px; z-index: 999999999;">
+                                        <button class="btn btn-success"
+                                            style="position: relative; top: 20px; right: 70px;" id="upload-btn"><i
+                                                class="material-icons">file_upload</i></button>
+                                    </div>
+                                    <div style="position: absolute; right: 100px;">
+                                        <img src="https://siga.arcoconsultoria.com/SIGA/libsiga/images/icons/testesiga.png"
+                                            alt="Logomarca">
+                                    </div>
+                                </div>
+                                <span class="material-symbols-outlined">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fim cabeçalho -->
+                <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+                <!-- Inicio parte de preenchimento de informações -->
+                <div class="card">
+                    <div class="col-12" style="display: inline; margin-left: 45px; margin-top: 3px;">
+                        <ul id="nav-ul">
+                            <li role="presentation" class="tab-select act" id="pagina_cad">
+                                <a href="#pagina_cadastro" data-toggle="tab" onclick="alterTab(0)">
+                                    Cadastro
+                                </a>
+                                <div style="display: inline-block; position: relative; top: 4px;">
+                                    <i class="material-icons" style="font-size: 14pt;">how_to_reg</i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+                    <!-- Cadastro -->
+                    <!-- Inicio dados -->
+                    <div class="tab-pane row" id="pagina_cadastro">
+                        <div class="div-input form-floating mb-3 m-l-10 col-5" style="display: inline-block;">
+                            <input class="form-control" type="text" autocomplete="off" name="razaoSocial"
+                                id="razao_social" placeholder=".">
+                            <label for="" id="" style="width: 400px;">Razão Social</label>
+                        </div>
+
+                        <div class="div-input form-floating mb-3 m-l-10 col-4" style="display: inline-block;">
+                            <input class="form-control" type="text" autocomplete="off" name="nomeFantasia"
+                                id="nome_fantasia" placeholder=".">
+                            <label for="" id="" style="width: 400px;">Nome Fantasia</label>
+                        </div>
+                        <div class="div-input form-floating mb-3 m-l-10 col-3" style="display: inline-block;">
+                            <input class="form-control" type="text" autocomplete="off" name="Telefone1" id="telefone_1"
+                                placeholder=".">
+                            <label for="" id="" style="width: 400px;">Telefone 1</label>
+                        </div>
+                        <div class="div-input form-floating mb-3 m-l-10 col-3" style="display: inline-block;">
+                            <input class="form-control" type="text" autocomplete="off" name="Telefone2" id="telefone_2"
+                                placeholder=".">
+                            <label for="" id="" style="width: 400px;">Telefone 2</label>
+                        </div>
+                        <div class="div-input form-floating mb-3 m-l-10 col-5" style="display: inline-block;">
+                            <input class="form-control" type="text" autocomplete="off" name="email" id="email"
+                                placeholder=".">
+                            <label for="" id="" style="width: 400px;">Email</label>
+                        </div>
+                        <div class="div-input form-floating mb-3 m-l-10 col-5" style="display: inline-block;">
+                            <input class="form-control" type="text" autocomplete="off" name="email2" id="email2"
+                                placeholder=".">
+                            <label for="" id="" style="width: 400px;">Email 2</label>
+                        </div>
+                        <!-- info adicionais -->
+                        <div class="col-6" style="border-left: solid 1px lightgray;">
+                            <div class="col-6" style="float: left;">
+                                <div class="div-input form-floating mb-3 m-l-10 col-9" style="display: inline-block;">
+                                    <input class="form-control" type="date" autocomplete="off" name="dataDeCadastro"
+                                        id="data_cadastro" placeholder="." readonly>
+                                    <label for="" id="" style="width: 400px;">Data de Cadastro</label>
+                                </div>
+                                <div class="div-input mb-3 m-l-10 col-9" style="display: inline-block;">
+                                    <select class="form-select" aria-label="Default select example" id="usu_resp">
+                                        <option value="" selected>Usuário Responsável</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6" style="float: right;">
+                                <div class="div-input form-floating mb-3 m-l-10 col-10" style="display: inline-block;">
+                                    <input class="form-control" type="number" autocomplete="off"
+                                        name="qntMaximaVeiculos" id="qnt_max_veiculos" placeholder=".">
+                                    <label for="" id="" style="width: 600px;">Qte Máxima de Veículos</label>
+                                </div>
+                                <div class="div-input mb-3 m-l-10 col-9" style="display: inline-block;">
+                                    <select class="form-select" aria-label="Default select example" id="empresa_resp">
+                                        <option value="" selected>Empresa</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="div-input form-floating mb-3 m-l-10 col-10" style="display: inline-block;">
+                                    <input class="form-control" type="text" autocomplete="off" name="usuario_add"
+                                        id="usu_add" placeholder="." readonly>
+                                    <label for="" id="" style="width: 400px;">Usuário</label>
+                                </div>
+                                <div class="div-input mb-3 m-l-10 col-3" style="display: inline-block;"
+                                    onclick="toggleCheck('oficina_credenciada')">
+                                    <input type="checkbox" name="" id="oficina_credenciada"
+                                        style="display: inline-block;">
+                                    <label for="" id="" style="display: inline-block; margin-left: -20px;">Oficina
+                                        Credenciada</label>
+                                </div>
+                                <div class="div-input mb-3 m-l-10 col-3" style="display: inline-block;"
+                                    onclick="toggleCheck('oficina_desabilitada')">
+                                    <input type="checkbox" name="" id="oficina_desabilitada"
+                                        style="display: inline-block;">
+                                    <label for="" id="" style="display: inline-block; margin-left: -20px;">Oficina
+                                        Desabilitada</label>
+                                </div>
+                                <div class="col-1" style="display: inline-block;">
+                                    <button class="btn btn-success" style="padding: 2px 6px;">
+                                        <i class="material-symbols-outlined" style="font-size: 18px; margin: 0;">
+                                            add
+                                        </i>
+                                    </button>
+                                </div>
+                                <div class="col-1" style="display: inline-block; margin-left: -10px;">
+                                    <button class="btn btn-primary" style="padding: 2px 6px;">
+                                        <i class="material-symbols-outlined" style="font-size: 18px; margin: 0;">
+                                            help
+                                        </i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Localização -->
+                        <div class="col-6" style="margin-top: -235px;">
+                            <div class="div-input form-floating mb-3 m-l-10 col-4" style="display: inline-block;">
+                                <input class="form-control" type="text" autocomplete="off" name="cep" id="cep"
+                                    placeholder="." onchange="pesquisacep(this.val)">
+                                <label for="" id="" style="width: 400px;">CEP</label>
+                            </div>
+                            <div class="div-input mb-3 col-4" style="display: inline-block; margin-top: 35px;">
+                                <select class="form-select" aria-label="Default select example" id="uf">
+                                    <option value="" selected>UF</option>
+                                    <option value="AC">Acre</option>
+                                    <option value="AL">Alagoas</option>
+                                    <option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="CE">Ceará</option>
+                                    <option value="DF">Distrito Federal</option>
+                                    <option value="ES">Espirito Santo</option>
+                                    <option value="GO">Goiás</option>
+                                    <option value="MA">Maranhão</option>
+                                    <option value="MS">Mato Grosso do Sul</option>
+                                    <option value="MT">Mato Grosso</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="PA">Pará</option>
+                                    <option value="PB">Paraíba</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="PI">Piauí</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="RN">Rio Grande do Norte</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="RO">Rondônia</option>
+                                    <option value="RR">Roraima</option>
+                                    <option value="SC">Santa Catarina</option>
+                                    <option value="SP">São Paulo</option>
+                                    <option value="SE">Sergipe</option>
+                                    <option value="TO">Tocantins</option>
+                                </select>
+                            </div>
+                            <div class="div-input form-floating mb-3 m-l-10 col-5" style="display: inline-block;">
+                                <input class="form-control" type="text" autocomplete="off" name="cidade" id="cidade"
+                                    placeholder=".">
+                                <label for="" id="" style="width: 400px;">Cidade</label>
+                            </div>
+                            <div class="div-input form-floating mb-3 m-l-10 col-4" style="display: inline-block;">
+                                <input class="form-control" type="text" autocomplete="off" name="bairro" id="bairro"
+                                    placeholder=".">
+                                <label for="" id="" style="width: 400px;">Bairro</label>
+                            </div>
+                            <div class="div-input form-floating mb-3 m-l-10 col-7" style="display: inline-block;">
+                                <input class="form-control" type="text" autocomplete="off" name="Endereço" id="endereco"
+                                    placeholder=".">
+                                <label for="" id="" style="width: 400px;">Endereço</label>
+                            </div>
+                            <div class="div-input form-floating mb-3 m-l-10 col-2" style="display: inline-block;">
+                                <input class="form-control" type="text" autocomplete="off" name="num" id="num"
+                                    placeholder=".">
+                                <label for="" id="" style="width: 400px;">Numero</label>
+                            </div>
+                        </div>
+                        <div class="div-input col-12">
+                            <label for="">Observações Gerais</label>
+                            <textarea name="" id="" cols="180" rows="5" style="font-size: 11pt;"></textarea>
+                        </div>
+                    </div>
+                    <!-- Fim dados -->
+                    <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+                </div>
+            </div>
+        </div>
+        <!-- Fim cadastro -->
+        <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+        <!-- Inicio Modal-->
+        <div class="col-12">
+            <div class="modal fade" id="associacaoFornecedor" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="defaultModalLabel">Replicar Fornecedor para:</h4>
+                        </div>
+                        <form name="form-sms" method="get" accept-charset="utf-8">
+                            <div class="modal-body">
+                                <div class="row clearfix" style="padding-top: 8px;">
+                                    <div class="card">
+                                        <div class="body">
+                                            <h4 class="justify-content-center">Fornecedor disponivel para : </h4>
+                                            <div class="row" style="padding: 8px; display: -webkit-inline-box;">
+                                                <div class="col-md-8 i-m-b-5" style=" display: contents">
+                                                    <div class="col-md-7 i-m-b-5" style="padding-top:15px">
+                                                        <div class="form-line">
+                                                            <select id="associacaoAtivas" class="form-control select2"
+                                                                style="width: 100%;">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary waves-effect"
+                                                            id="botao_salvar_item">
+                                                            <i class="material-icons">save</i>
+                                                            <span>Salvar</span>
+                                                        </button>
+                                                        <button type="button" class="btn bg-red waves-effect"
+                                                            data-dismiss="modal" id="botao_fechar_item">
+                                                            <i class="material-icons">close</i>
+                                                            <span>Fechar</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var tipo;
+
+            window.onload = () => {
+                alterTab(0);
+                document.getElementById('upload-btn').style.display = 'none'
+            }
+
+            function uploadBtn(tipo) {
+                console.log(tipo)
+                document.getElementById('upload-btn').style.display = tipo
+            }
+
+            function alterTab(tab) {
+                let qnt = document.querySelectorAll('.tab-pane').length
+                for (let i = 0; i < qnt; i++) {
+                    document.querySelectorAll('.tab-pane')[i].style.display = 'none'
+                    if (document.querySelectorAll('.tab-select')[i].classList.contains('act')) {
+                        document.querySelectorAll('.tab-select')[i].classList.remove('act')
+                    }
+                    console.log(i)
+                }
+                document.querySelectorAll('.tab-pane')[tab].style.display = ''
+                document.querySelectorAll('.tab-select')[tab].classList.add('act')
+            }
+
+            function pesquisacep() {
+                let valor = document.getElementById('cep').value
+                valor = valor.replace(/ /g, '')
+                valor = valor.replace(/-/g, '')
+                valor = valor.replace(/\./g, '')
+                valor = valor.replace(/\//g, '')
+                if (valor.length == 8)
+                    fetch(`https://viacep.com.br/ws/${valor}/json`)
+                        .then(response => {
+                            return response.json()
+                                .then((data) => {
+                                    document.getElementById('cidade').value = data.localidade
+                                    document.getElementById('bairro').value = data.bairro
+                                    document.getElementById('endereco').value = data.logradouro
+                                    document.getElementById('uf').value = data.uf
+                                });
+                        }).then((data) => {
+                        }).catch((err) => { });
+            };
+
+            function toggleCheck(id) {
+                if (document.getElementById(id).checked)
+                    document.getElementById(id).checked = 0
+                else
+                    document.getElementById(id).checked = 1
+            }
+
+            function selectRadio(id) {
+                document.getElementById(id).checked = 1;
+            }
+        </script>
+
+        <!-- Jquery Core Js -->
+        <script src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/jquery/jquery.min.js"></script>
+        <!-- Bootstrap Core Js -->
+        <script src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/bootstrap/js/bootstrap.js"></script>
+        <script src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/select2/dist/js/select2.min.js"></script>
+        <script src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/node-waves/waves.js"></script>
+
+        <!-- Input Mask Plugin Js -->
+        <script
+            src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/jquery-inputmask/jquery.inputmask.bundle.js"></script>
+
+        <!-- Data Table Plugin Js -->
+        <script type="text/javascript"
+            src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/moment/moment.js"></script>
+        <script type="text/javascript"
+            src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/datatables/datatables.min.js"></script>
+        <script type="text/javascript"
+            src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/datatables/dt-moment.js"></script>
+        <script type="text/javascript"
+            src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/datatables/Buttons-1.6.1/js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript"
+            src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/datatables/Buttons-1.6.1/js/buttons.flash.min.js"></script>
+        <script type="text/javascript"
+            src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/datatables/jszip.min.js"></script>
+        <script type="text/javascript"
+            src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/datatables/vfs_fonts.js"></script>
+        <script type="text/javascript"
+            src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/datatables/Buttons-1.6.1/js/buttons.html5.min.js"></script>
+        <script type="text/javascript"
+            src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/datatables/Buttons-1.6.1/js/buttons.print.min.js"></script>
+        <!--  -->
+        <script src="https://siga.arcoconsultoria.com/SIGA/libsiga/js/mainNoConflict.js"></script>
+        <script src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/jquery-ui/jquery-ui.min.js"></script>
+        <script src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/jquery-ui/datepicker-pt-BR.js"></script>
+        <script src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/ckeditor/ckeditor.js"></script>
+        <script src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/ckeditor/lang/pt-br.js"></script>
+        <!-- Jquery CountTo Plugin Js -->
+        <script src="https://siga.arcoconsultoria.com/SIGA/libsiga/plugins/jquery-countto/jquery.countTo.js"></script>
+</body>
+
+</html>
